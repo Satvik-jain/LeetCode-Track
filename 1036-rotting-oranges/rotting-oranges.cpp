@@ -20,22 +20,22 @@ private:
             int a = q.front().first.first;
             int b = q.front().first.second;
             time = q.front().second;
-            cout << a << " " << b << " " << time << endl;
             q.pop();
-            for (auto i : {-1,0,1}){
-                for (auto j: {-1,0,1}){
-                    int newr = a + i;
-                    int newc = b + j;
-                    if (abs(i) + abs(j) == 2) continue;
-                    if (newr >= 0 && newc >= 0 && newr < grid.size() && 
-                        newc < grid[0].size()){
-                        if (grid[newr][newc] == 1 && vis[newr][newc] == 0){
-                            vis[newr][newc] = 1;
-                            grid[newr][newc] = 2;
-                            q.push({{newr, newc},time + 1});
-                            cnt++;
-                        }
+            int rows[] = {-1,0,1,0};
+            int cols[] = {0,1,0,-1};
+            for (int i = 0; i < 4 ; i++){
+                int newr = a + rows[i];
+                int newc = b + cols[i];
+                // if (abs(i) + abs(j) == 2) continue;
+                if (newr >= 0 && newc >= 0 && newr < grid.size() && 
+                    newc < grid[0].size()){
+                    if (grid[newr][newc] == 1 && vis[newr][newc] == 0){
+                        vis[newr][newc] = 1;
+                        grid[newr][newc] = 2;
+                        q.push({{newr, newc},time + 1});
+                        cnt++;
                     }
+                
                 }
             }
         }
