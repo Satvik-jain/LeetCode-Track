@@ -5,14 +5,17 @@ private:
         int m = grid.size();
         int n = grid[0].size();
         int time = 0;
+        int count = 0;
         for (int i = 0; i < m; i++){
             for (int j = 0; j < n; j++){
                 if (grid[i][j] == 2){
                     q.push({{i,j},time});
                     vis[i][j]++;
                 }
+                if (grid[i][j] == 1)count++;
             }
         }
+        int cnt = 0;
         while(!q.empty()){
             int a = q.front().first.first;
             int b = q.front().first.second;
@@ -30,12 +33,14 @@ private:
                             vis[newr][newc] = 1;
                             grid[newr][newc] = 2;
                             q.push({{newr, newc},time + 1});
+                            cnt++;
                         }
                     }
                 }
             }
         }
-        return time;
+        if(count!=cnt) return -1;
+        else return time;
     }
 public:
     int orangesRotting(vector<vector<int>>& grid) {
@@ -43,13 +48,6 @@ public:
         int n = grid[0].size();
         vector<vector<int>> vis(m, vector<int> (n, 0));
         int time = bfs(vis, grid);
-        for (int i = 0; i < m; i++){
-            for (int j = 0; j < n; j++){
-                if (grid[i][j] == 1){
-                    return -1;
-                }
-            }
-        }
         return time;
     }
 };
