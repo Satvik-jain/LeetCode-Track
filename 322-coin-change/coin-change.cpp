@@ -21,7 +21,7 @@ int helper(int sum,  vector<int> &coins, int n, vector<vector<int>>&t){
         int n = coins.size();
 
         if (n==1 && coins[0] == 1) return sum;
-        
+        sort(coins.begin(), coins.end());
         vector<vector<int>> t(n, vector<int>(sum+1, INT_MAX));
         
         vector<int> v;
