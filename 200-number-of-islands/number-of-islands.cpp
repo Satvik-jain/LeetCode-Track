@@ -1,39 +1,41 @@
 class Solution {
-    private:
-    void traverse(vector<vector<int>>& vis, vector<vector<char>>& grid, int i, int j){
+public:
+    void bfs(int i, int j, int n, int m, vector<vector<char>>& grid){
         queue<pair<int,int>> q;
-        q.push({i, j});
-        vis[i][j] = 1;
+        q.push({i,j});
         while(!q.empty()){
-            pair<int, int> temp = q.front();
-            i = temp.first;
-            j = temp.second;
+            int r = q.front().first;
+            int c = q.front().second;
+            grid[r][c] = '0';
             q.pop();
-            for (auto a: {-1,0,1}){
-                for (auto b: {-1,0,1}){
-                    if (abs(a) + abs(b) != 1) continue;
-                    if (i+a >= 0 && j+b >= 0 && i+a < vis.size() && j+b < vis[0].size()){
-                        if(grid[i+a][j+b]=='1' && !vis[i+a][j+b]){
-                            q.push({i+a,j+b});
-                            vis[i+a][j+b] = 1;
+            for(int i: {-1, 0, 1}){
+                for(int j : {-1, 0, 1}){
+                    int nr = r + i;
+                    int nc = c + j;
+                    if (nr<0 || nr > n-1 || nc<0 || nc > m-1) continue;
+                    if(abs(i)+abs(j) == 2){
+                        continue;
+                    }
+                    else{
+                        if(grid[nr][nc] == '1'){
+                            grid[nr][nc] = '0';
+                            q.push({nr,nc});
                         }
                     }
                 }
             }
         }
     }
-    public:
-    // Function to find the number of islands
     int numIslands(vector<vector<char>>& grid) {
-        // Code here
+        int ans = 0;
         int n = grid.size();
         int m = grid[0].size();
-        vector<vector<int>> vis(n, vector<int> (m,0));
-        int ans = 0;
-        for (int i = 0; i < n; i++){
-            for (int j = 0; j < m; j++){
-                if (!vis[i][j] && grid[i][j] == '1'){
-                    traverse(vis, grid, i, j);
+        // vector<vector<int>> vis(n, vector<int> (m,0));
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(grid[i][j]=='0') continue;
+                else{
+                    bfs(i, j, n, m, grid);
                     ans++;
                 }
             }
