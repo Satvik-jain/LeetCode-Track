@@ -1,36 +1,35 @@
 class Solution {
 public:
-    bool dfs(vector<vector<int>>& graph, int i, vector<int>&v, vector<int>& pv){
-        v[i] = 1;
-        pv[i] = 1;
-        bool cycle = false;
-        for (auto j: graph[i]){
-            if (v[j] == -1){
-                if (dfs(graph, j, v, pv)) cycle = true;
-            }
-            else{
-                if(pv[j] == 1) cycle =true;
-            }
-        }
-        if (!cycle) pv[i] = !pv[i];
-        return cycle;
-    }
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-
-        int V = graph.size();
-        vector<int> v(V,-1);
-        vector<int> pv(V,-1);
-
-        for (int i = 0; i < V; i++){
-            if (v[i] == -1){
-                dfs(graph, i, v, pv);
+        int n = graph.size();
+        vector <int> adj[n];
+        for(int i = 0; i < graph.size(); i++){
+            for (int j = 0; j < graph[i].size(); j++){
+                adj[graph[i][j]].push_back(i);
             }
         }
-
-        vector<int> ans;
-        for (int i = 0; i < V; i++){
-            if (pv[i] == 0) ans.push_back(i);
+        queue<int>q;
+        vector <int> indegree(n,0);
+        for (int i = 0; i<n; i++){
+            indegree[i] = graph[i].size();
         }
+        for (int i = 0; i < n; i++){
+            if (indegree[i] == 0) q.push(i);
+        }
+        vector <int> ans;
+        while(!q.empty()){
+            int top = q.front();
+            q.pop();
+            ans.push_back(top);
+            for (int i: adj[top]){
+                indegree[i]--;
+                if (!indegree[i]){
+                    q.push(i);
+                }
+            }
+
+        }
+        sort(ans.begin(), ans.end());
         return ans;
     }
 };
