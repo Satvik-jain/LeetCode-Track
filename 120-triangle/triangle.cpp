@@ -13,8 +13,9 @@ public:
         int n = triangle.size();
         int m = triangle[n-1].size();
         int ans=INT_MAX;
+        vector<vector<int>> dp(n, vector<int>(m, -1));
         for (int i = 0; i < m; i++){
-            vector<vector<int>> dp(n, vector<int>(m, -1));
+            
             ans = min(ans, helper(triangle, dp, n-1, i));
         }
         return ans;
