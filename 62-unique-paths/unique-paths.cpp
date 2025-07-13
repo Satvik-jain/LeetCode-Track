@@ -1,22 +1,20 @@
 class Solution {
-  public:
-  int nCr(int n, int r, vector<vector<int>>& dp) {
-  
-    // No valid combinations if r is greater than n
-    if(dp[n][r] != -1) return dp[n][r];
-    if (r > n) 
-        return dp[n][r] = 0;
-  
-    // Base case: only one way to choose 0 or all elements
-    if (r == 0 || r == n) 
-        return dp[n][r] = 1;
-  
-    // include or exclude current element
-    return dp[n][r] = nCr(n - 1, r - 1, dp) + nCr(n - 1, r, dp);
-}
+public:
+using ll = long long;
     int uniquePaths(int m, int n) {
-        // Code Here
-        vector<vector<int>> dp(n+m+1, vector<int>(m+n+1, -1));
-        return nCr(n-1+m-1, max(m-1,n-1), dp);
+        vector<vector<int>> dp(m, vector<int>(n, 0));
+        for (int i = 0; i<m; i++){
+            dp[i][0] = 1;
+        }
+        for (int i = 0; i<n; i++){
+            dp[0][i] = 1;
+        }
+        for (int i = 1; i < m; i++){
+            for (int j = 1; j < n; j++){ 
+                dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        }
+        // cout << dp[1][1];
+        return dp[m-1][n-1];
     }
 };
