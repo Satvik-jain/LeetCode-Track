@@ -1,30 +1,32 @@
 class Solution {
-public:
-    bool knapsack(vector<int>& nums, int W, vector<vector<int>> &t, int n) {
-        if (W == 0) return true;
-        if (n == 0) return false;
-        if (t[n][W] != -1) return t[n][W];
-
-        if (nums[n - 1] > W) 
-            return t[n][W] = knapsack(nums, W, t, n - 1);
-
-        return t[n][W] = knapsack(nums, W, t, n - 1) || knapsack(nums, W - nums[n - 1], t, n - 1);
-    }
-
-    bool canPartition(vector<int>& nums) {
-        int sum = accumulate(nums.begin(), nums.end(), 0);
-        int m = nums.size();
-        int max = *max_element(nums.begin(), nums.end());
-        if (sum - 2*max < 0) return false;
-        if (sum - 2*max == 0) return true;
-        else{
-            int diff = sum;
-            cout << diff/2;
-            if (diff%2!=0) return false;
-            else{
-                vector<vector<int>>t(m+1, vector<int>(diff/2 + 1,-1));
-                return knapsack(nums, diff/2, t, m);
+  public:
+    // bool f(vector<int>& arr, int n, int W, vector<vector<int>> &dp){
+    //     if (dp[n][W] != -1) return dp[n][W];
+    //     if (W == 0) return 1;
+    //     if (n == 0) return 0;
+    //     if (W >= arr[n-1]) return dp[n][W] = (f(arr, n-1, W, dp) || f(arr, n-1, W-arr[n-1], dp));
+    //     else return dp[n][W] = f(arr, n-1, W, dp);
+    // }
+    bool canPartition(vector<int>& arr) {
+        // code here
+        int n = arr.size();
+        int sum = 0;
+        for (int i = 0; i < n; i++){
+            sum+=arr[i];
+        }
+        if (sum%2!=0) return false;
+        int W = sum/2;
+        vector<vector<int>> dp(n+1, vector<int>(W+1, 0));
+        for (int i = 0; i < n+1; i++){
+            dp[i][0] = 0;
+        }
+        dp[0][0] = 1;
+        for(int i = 1; i < n+1; i++){
+            for (int j = 1; j < W+1; j++){
+                if (j >= arr[i-1]) dp[i][j] = (dp[i-1][j] || dp[i-1][j-arr[i-1]]);   
+                else dp[i][j] = dp[i-1][j];
             }
         }
+        return dp[n][W];
     }
 };
