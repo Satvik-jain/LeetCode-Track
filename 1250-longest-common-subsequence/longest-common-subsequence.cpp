@@ -11,10 +11,19 @@ class Solution {
         int n = s1.size();
         int m = s2.size();
         vector<vector<int>> dp(s1.size()+1, vector<int>(s2.size()+1, 0));
+        int maxe = INT_MIN;
+        int ans = 0;
         for (int i = 1; i < n+1; i++){
             for (int j = 1; j < m+1; j++){
-                if (s1[i-1] == s2[j-1]) dp[i][j] = 1 + dp[i-1][j-1];
-                else dp[i][j] =  max(dp[i][j-1], dp[i-1][j]);
+                if (s1[i-1] == s2[j-1]){
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                    ans++;
+                    maxe = max(ans, maxe);
+                }
+                else{
+                    dp[i][j] =  max(dp[i][j-1], dp[i-1][j]);
+                    ans = 0;
+                }
             }
         }
         return dp[n][m];
