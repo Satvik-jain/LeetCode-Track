@@ -1,22 +1,21 @@
 class Solution {
 public:
     int longestPalindrome(string s) {
-        int n = s.length();
-        vector<int> v(60, 0);
-        for (int i = 0;i < n; i++){
-            v[s[i] - 'A']++;
+        vector<int> v(128, 0);  // Use ASCII size
+        for (char c : s) {
+            v[c]++;
         }
+
         int ans = 0;
         bool has_odd = false;
-        for (int i = 0; i < 60; i++){
-            if (v[i]%2 == 0){
-                ans+=v[i];
-            }
-            else{
+        for (int count : v) {
+            if (count % 2 == 0) {
+                ans += count;
+            } else {
                 has_odd = true;
-                ans = ans + v[i] - 1;
+                ans += count - 1;
             }
         }
-        return (has_odd)? ans+1 : ans;
+        return has_odd ? ans + 1 : ans;
     }
 };
