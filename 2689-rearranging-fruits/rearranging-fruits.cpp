@@ -5,7 +5,7 @@ public:
         using ll = long long;
         int n = b1.size();
         ll mine = INT_MAX;
-        unordered_map<int, int> mpp;
+    map<int, int> mpp;
         for (int i = 0; i < n; i++){
             mine = min(mine, (ll)min(b1[i], b2[i]));
             mpp[b1[i]]++;
@@ -25,7 +25,7 @@ public:
             }
         }
 
-        sort(transfer.begin(), transfer.end());
+        // sort(transfer.begin(), transfer.end());
 
         ll cost = 0;
         for (int i = 0; i < transfer.size()/2; i++){
