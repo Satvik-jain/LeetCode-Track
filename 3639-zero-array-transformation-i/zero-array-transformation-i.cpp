@@ -13,9 +13,7 @@ public:
         for (int i = 0; i < n; i++){
                 count+=hash[i];
                 nums[i] = max(0, nums[i]-count);
-        }
-        for (auto i : nums){
-            if (i!=0) return false;
+                if (nums[i] != 0) return false;
         }
         return true;
     }
