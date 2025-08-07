@@ -12,8 +12,8 @@ public:
         
         for (int i = 0; i < n; i++){
                 count+=hash[i];
-                nums[i] = max(0, nums[i]-count);
-                if (nums[i] != 0) return false;
+                // nums[i] = max(0, );
+                if (nums[i]-count > 0) return false;
         }
         return true;
     }
