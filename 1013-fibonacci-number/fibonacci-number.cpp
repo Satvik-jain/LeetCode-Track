@@ -8,6 +8,6 @@ public:
             i = j;
             j = temp + j;
         }
-        return (n)? i:0;
+        return i;
     }
 };
