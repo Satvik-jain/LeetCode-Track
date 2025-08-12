@@ -1,12 +1,33 @@
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int k) {
-        vector<int> freq(26, 0);
-        for (char t : tasks) freq[t - 'A']++;
-        
-        int maxFreq = *max_element(freq.begin(), freq.end());
-        int maxCount = count(freq.begin(), freq.end(), maxFreq);
-        
-        return max((int)tasks.size(), (maxFreq - 1) * (k + 1) + maxCount);
+        // priority_queue<int, char> pq;
+        vector<int>record(26, 0);
+        int n = tasks.size();
+        for (auto i : tasks){
+            record[i - 'A']++;
+        }
+        int count = 0;
+        int ele = n;
+        while(ele){
+            sort(record.begin(), record.end(), greater<int>());
+            int limit = k+1;
+            for (int i = 0; i < 26; i++){
+                 if (limit == 0){
+                    break;
+                }
+                if (record[i]!=0){
+                    count++;
+                    record[i]--;
+                    limit--;
+                    ele--;
+                }
+            }   
+            if (limit && ele > 0){
+                count += limit;
+                limit = 0;
+            }
+        }
+        return count;
     }
 };
