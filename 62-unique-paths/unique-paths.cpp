@@ -1,17 +1,15 @@
 class Solution {
 public:
-using ll = long long;
     int uniquePaths(int m, int n) {
-        vector<int> dp(n, 1);
-        for (int i = 1; i < m; i++){
-            vector<int> temp(n, 1);
-            temp[0] = 1;
-            for (int j = 1; j < n; j++){
-                temp[j] = dp[j] + temp[j-1];
-            }
-            dp = temp;
+        long long res = 1;
+        int r = min(m-1, n-1);
+        int total = m + n - 2;
+
+        // Compute C(total, r) = total! / (r! * (total-r)!)
+        for (int i = 1; i <= r; i++) {
+            res = res * (total - r + i) / i;
         }
-        // cout << dp[1][1];
-        return dp[n-1];
+
+        return (int)res;
     }
 };
