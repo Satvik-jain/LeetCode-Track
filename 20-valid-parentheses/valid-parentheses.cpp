@@ -1,26 +1,27 @@
 class Solution {
 public:
     bool isValid(string s) {
-        if (s.length() == 1) return false;
-        unordered_map<char, char> mpp;
-        mpp[')'] = '('; mpp['}'] = '{'; mpp[']'] = '['; 
+        if(s.length() == 1) return false;
+
         stack<char> st;
-        for (int i = 0; i < s.length() ; i++){
-            if (st.empty()){
-                st.push(s[i]);
-                continue;
+        unordered_map<char, char> mpp;
+
+        mpp[')'] = '('; mpp['}'] = '{'; mpp[']'] = '['; 
+
+        for (auto i : s){
+            if (i=='['||i=='{'||i=='('){
+                st.push(i);
             }
-            char temp = st.top();
-            if (s[i] == ')' || s[i] == '}' || s[i] == ']') {
-                if (temp == mpp[s[i]]){
+            else{
+                if (st.size() && st.top() == mpp[i]){
                     st.pop();
                     continue;
                 }
-                else return false;
+                else{
+                    return false;
+                }
             }
-            st.push(s[i]);
         }
-        cout << "YES";
-        return (st.empty()) ? true:false;
+        return st.empty();
     }
 };
