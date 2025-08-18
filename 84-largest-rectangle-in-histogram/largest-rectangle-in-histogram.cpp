@@ -5,16 +5,16 @@ public:
 
         int n = heights.size();
 
-        vector<int> nse;
-        vector<int> pse;
+        vector<int> nse(n);
+        vector<int> pse(n);
 
         stack<int> st;
         for(int i = 0; i < n; i++){
             while(!st.empty() && heights[st.top()] >= heights[i]) st.pop();
             if(st.empty()){
-                pse.push_back(-1);
+                pse[i] = -1;
             } else {
-                pse.push_back(st.top());
+                pse[i] = st.top();
             }
             st.push(i);
         }
@@ -23,13 +23,12 @@ public:
         for(int i = n-1; i >= 0; i--){
             while(!st.empty() && heights[st.top()] >= heights[i]) st.pop();
             if(st.empty()){
-                nse.push_back(n);
+                nse[i] = n;
             } else {
-                nse.push_back(st.top());
+                nse[i] = st.top();
             }
             st.push(i);
         }
-        reverse(nse.begin(), nse.end());
 
         for(int  i = 0; i < n; i++){
             cout << (nse[i]-pse[i]-1)*heights[i] << endl;
