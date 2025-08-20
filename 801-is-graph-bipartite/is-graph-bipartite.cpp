@@ -1,29 +1,24 @@
 class Solution {
 public:
-    bool isBipartite(vector<vector<int>>& graph) {
-        vector<int> vis(graph.size(), -1);
-        for(int k = 0; k < graph.size(); k++){
-            if (vis[k] == -1){
-                vis[0] = k;
-                queue<int> q;
-                q.push(k);
-                while(!q.empty()){
-                    int temp = q.front();
-                    q.pop();
-                    for(int j: graph[temp]){
-                        if (vis[j] == -1){
-                            if(!vis[temp]) vis[j] = 1;
-                            else vis[j] = 0; 
-                            q.push(j);
-                        }
-                        else{
-                            if(vis[j]!=vis[temp]) continue;
-                            else return false; 
-                        }
-                    }
-                }
+    bool dfs(vector<vector<int>>& graph, int i, vector<int> &vis, bool sign){
+        vis[i] = sign;
+        for(auto j: graph[i]){
+            if (vis[j]!=-1){
+                if(vis[j]==sign) return false;
             }
+            if (vis[j] == -1 && !dfs(graph, j, vis, !sign)) return false;
         }
         return true;
+    }
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<int> v(n, -1);
+        // return dfs(graph, v);
+        bool ans=true;
+        for(int i = 0; i < graph.size(); i++){
+            if (v[i] == -1) ans = dfs(graph, i, v, 1);
+            if(!ans) return false;
+        }
+        return ans;
     }
 };
