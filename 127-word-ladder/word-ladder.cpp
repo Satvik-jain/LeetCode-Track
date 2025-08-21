@@ -1,36 +1,36 @@
 class Solution {
 public:
-//     int pos(vector<string> & v, string a){
-//       for (int  i= 0; i < v.size(); i++){
-//           if (v[i] == a) return i;
-//       }
-//       return -1;
-//   }
-    int ladderLength(string startWord, string targetWord,
-                         vector<string>& wordList) {
-        // Code here
-        string a  = startWord, b = targetWord;
-        unordered_set st(wordList.begin(), wordList.end());
-        queue<pair<string, int>> q;
-        if (st.find(b) == st.end()) return 0;
-        if (st.find(a) != st.end()) st.erase(a);
-        q.push({a, 1});
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_map<string, int> mpp;
+        for (auto &w : wordList) {
+            mpp[w] = 1;  
+        }
+        using P = pair<int, string>;
+        queue<P> q;
+        q.push({1, beginWord});
+        mpp.erase(beginWord);
+        if (mpp.find(endWord) == mpp.end()) return 0;
         while(!q.empty()){
-            string current = q.front().first;
-            int denomination = q.front().second;
+            string curr = q.front().second;
+            int len = q.front().first;
             q.pop();
-            for (int i = 0; i < a.length(); i++){
-                for(int j = 0; j < 26; j++){
-                    string c = current;
-                    c[i] = char('a' + j);
-                    if (c == b) return denomination+1;
-                    if (st.find(c) != st.end()){
-                        st.erase(c);
-                        q.push({c, denomination+1});
+            if (curr == endWord){
+                return len;
+            }
+            for (int j = 0; j < curr.length(); j++){
+                char now = curr[j];
+                for (int i = 0; i < 26; i++){
+                    char letter = 'a' + i;
+                    if (now == letter) continue;
+                    curr[j] = letter;
+                    if (mpp.find(curr) != mpp.end()){
+                        q.push({len+1, curr});
+                        mpp.erase(curr);
                     }
                 }
+                curr[j] = now;
             }
         }
-        return 0;
+        return 0;;
     }
 };
