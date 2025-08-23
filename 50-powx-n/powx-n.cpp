@@ -13,7 +13,8 @@ public:
         }
     }
     double myPow(double x, int n) {
-        double ans = helper(x, n);
+        long long N = n;
+        double ans = helper(x, abs(N));
         return (n >= 0) ? ans : 1/ans;
     }
 };
