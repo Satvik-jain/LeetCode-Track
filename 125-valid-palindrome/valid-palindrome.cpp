@@ -1,31 +1,17 @@
-class Solution {
+class Solution{
 public:
-    bool isPalindrome(string s) {
-        int i = 0, j = s.length() - 1;
-        while (j > i) {
-            // Skip non-alphanumeric characters
-            if (!isalnum(s[i])) {
-                i++;
-                continue;
-            }
-            if (!isalnum(s[j])) {
-                j--;
-                continue;
-            }
-
-            // Convert characters to lowercase for comparison
-            char a = tolower(s[i]);
-            char b = tolower(s[j]);
-
-            // If the characters don't match, return false
-            if (a != b) {
-                return false;
-            }
-
-            // Move pointers inward
-            i++;
-            j--;
+    bool helper(string & s, int i, int j){
+        if (i > j) return true;
+        if (!isalnum(s[i])){
+            return helper(s, i+1, j);
         }
-        return true;
+        if (!isalnum(s[j])){
+            return helper(s, i, j-1);
+        }
+        if (tolower(s[i]) == tolower(s[j])) return helper(s, i+1, j-1);
+        else return false;
+    }
+    bool isPalindrome(string s) {
+        return helper(s, 0, s.length()-1);
     }
 };
