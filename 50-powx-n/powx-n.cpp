@@ -1,6 +1,6 @@
 class Solution {
 public:
-    double helper(double x, int n){
+    double helper(double x, long long n){
         if (n==1) return x;
         if (n==0) return 1;
         if (n%2 == 0){
