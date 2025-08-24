@@ -10,17 +10,13 @@ public:
         }
         if (idx >= candidates.size() || target < 0) return;
         if (candidates[idx] > target) return;
-        cout << idx;
-        
-        // cout << candidates[idx] << endl;
-        if (idx < candidates.size()){
-            v.push_back(candidates[idx]);
-            hash[candidates[idx]] = 1; 
-            helper(candidates, target - candidates[idx], idx+1, ans, v, hash);
-            v.pop_back();
-            hash[candidates[idx]] = 0;
-            helper(candidates, target, idx+1, ans, v, hash);
-        }
+        v.push_back(candidates[idx]);
+        hash[candidates[idx]] = 1; 
+        helper(candidates, target - candidates[idx], idx+1, ans, v, hash);
+        v.pop_back();
+        hash[candidates[idx]] = 0;
+        helper(candidates, target, idx+1, ans, v, hash);
+
     }
     vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
         vector<vector<int>> ans;
