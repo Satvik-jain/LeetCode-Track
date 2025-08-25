@@ -2,7 +2,7 @@ class Solution {
 public:
     bool dfs(int i, int j, vector<vector<char>>& board, string word, int index){
         if (index == word.length()) return true;
-        int temp = board[i][j];
+        char temp = board[i][j];
         board[i][j] = '#';
         for (int a: {-1, 0, 1}){
             for (int b: {-1, 0, 1}){
