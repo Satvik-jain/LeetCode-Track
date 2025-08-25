@@ -6,13 +6,11 @@ public:
         vector<int> v;
 
         while (fr <= lr && fc <= lc) {
-            // Traverse top row
             for (int i = fc; i <= lc; i++) {
                 v.push_back(matrix[fr][i]);
             }
             fr++;
 
-            // Traverse right column
             if (fr <= lr) {
                 for (int i = fr; i <= lr; i++) {
                     v.push_back(matrix[i][lc]);
@@ -20,7 +18,6 @@ public:
                 lc--;
             }
 
-            // Traverse bottom row
             if (fc <= lc && fr <= lr) {
                 for (int i = lc; i >= fc; i--) {
                     v.push_back(matrix[lr][i]);
@@ -28,7 +25,6 @@ public:
                 lr--;
             }
 
-            // Traverse left column
             if (fr <= lr && fc <= lc) {
                 for (int i = lr; i >= fr; i--) {
                     v.push_back(matrix[i][fc]);
