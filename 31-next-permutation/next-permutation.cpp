@@ -23,6 +23,6 @@ public:
                 break;
             }
         }
-        reverse(nums.begin()+pivot+1, nums.end());
+        sort(nums.begin()+pivot+1, nums.end());
     }
 };
