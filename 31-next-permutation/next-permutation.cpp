@@ -17,8 +17,6 @@ public:
         for (int i = n-1; i >= 0; i--){
             if (nums[pivot] < nums[i]){
                 swap(nums[pivot], nums[i]);
-                for(auto i : nums){
-                }
                 break;
             }
         }
