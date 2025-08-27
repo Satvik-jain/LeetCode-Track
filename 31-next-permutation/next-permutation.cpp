@@ -18,11 +18,10 @@ public:
             if (nums[pivot] < nums[i]){
                 swap(nums[pivot], nums[i]);
                 for(auto i : nums){
-                    cout << i;
                 }
                 break;
             }
         }
-        sort(nums.begin()+pivot+1, nums.end());
+        reverse(nums.begin()+pivot+1, nums.end());
     }
 };
