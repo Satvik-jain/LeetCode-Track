@@ -14,7 +14,7 @@ public:
             for (int j : i.second){
                 temp.push_back(strs[j]);
             }
-            ans.push_back(temp);
+            ans.push_back(move(temp));
         }
         return ans;
     }
