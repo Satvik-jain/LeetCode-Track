@@ -7,22 +7,22 @@ bool isPalindrome(string &s, int i, int j) {
         }
         return true;
     }
-    int PP(string &s, int i, vector<int>& dp){
-        if (i == s.length()) return 0;
-        int n = s.length();
-        int mine = INT_MAX;
-        if (dp[i]!=-1) return dp[i];
-        for(int j = i; j < n; j++){
-            if (isPalindrome(s, i, j)){
-                int ways = 1 + PP(s, j+1, dp);
-                mine = min(mine, ways);
-            }
-        }
-        return dp[i] = mine;
-    }
     int minCut(string &s) {
+
         int n = s.length();
-        vector<int> dp(n, -1);
-        return PP(s, 0, dp)-1;
+        vector<int> dp(n+1, 0);
+
+        for (int i = n-1; i >= 0; i--){
+            int mine = INT_MAX;
+            for(int j = i; j < n; j++){
+                if (isPalindrome(s, i, j)){
+                    int ways = 1 + dp[j+1];
+                    mine = min(mine, ways);
+                }
+            }
+            dp[i] = mine;
+        }
+
+        return dp[0]-1;
     }
 };
