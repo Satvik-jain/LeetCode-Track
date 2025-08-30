@@ -10,8 +10,10 @@ bool isPalindrome(string &s, int i, int j) {
     int PP(string &s, int i, int j, vector<vector<int>>& dp, int ans){
         // cout << ans << endl;
         if (i >= j) return 0;
-        if (isPalindrome(s, i, j)) return 0; // whole substring already palindrome
+        
         if (dp[i][j] != -1) return dp[i][j];
+        if (isPalindrome(s, i, j)) return 0; // whole substring already palindrome
+        
         int cut = 0;
         for (int k = i; k < j; k++){
             if (isPalindrome(s, i, k)){
