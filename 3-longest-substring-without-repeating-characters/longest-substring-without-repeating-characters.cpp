@@ -14,7 +14,7 @@ public:
                 i++;
             }
             maxe = max(j-i+1, maxe);
-            cout << s[j] << " " << maxe << endl;
+            // cout << s[j] << " " << maxe << endl;
             mpp[s[j]]++;
             j++;
         }
