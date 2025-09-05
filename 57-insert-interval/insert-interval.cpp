@@ -13,7 +13,7 @@ public:
             end = max(end, intervals[i][1]);
             i++;
         }
-        cout << start << " " << end;
+        // cout << start << " " << end;
         ans.push_back({start, end});
         while(i < n){
             ans.push_back(intervals[i]);
