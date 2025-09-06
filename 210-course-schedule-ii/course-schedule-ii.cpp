@@ -1,50 +1,32 @@
 class Solution {
-private:
-    // bool dfs(vector<int>&vis, int i, stack<int>&s, vector<int> adj[]){
-    //     vis[i] = 1;
-    //     for (auto j: adj[i]){
-    //         if (vis[j] == -1) dfs(vis, j, s, adj);
-    //         if (vis[j] == 1) return true;
-    //     }
-    //     vis[i] = 2;
-    //     s.push(i);
-    //     return false;
-    // }
 public:
-    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-
-        vector<int> adj[numCourses];
-
-        for (int i = 0; i < prerequisites.size(); i++){
-            adj[prerequisites[i][1]].push_back(prerequisites[i][0]);
-        }
+    bool dfs(vector<vector<int>> & adj, int i, vector<int>& ans, vector<int>& vis, vector<int>& path_vis){
+        vis[i] = 1; path_vis[i] = 1;
         
-        queue<int> q;
-        vector<int> indegree(numCourses, 0);
-        
-        for(auto i: prerequisites){
-            indegree[i[0]]++;
-        }
-
-        for (int i = 0; i < numCourses; i++){
-            if (!indegree[i]) q.push(i);
-        }
-        
-        vector<int> ans;
-        while(!q.empty()){
-            int top = q.front();
-            ans.push_back(top); 
-            q.pop();
-            for (auto i: adj[top]){
-                indegree[i]--;
-                if (indegree[i] == 0){
-                    q.push(i);
-                }
+        for (int j: adj[i]){
+            if (vis[j] == 0){
+                if (dfs(adj, j, ans, vis, path_vis)) return true;
             }
-            
+            else if (path_vis[j] == 1) return true;
         }
-        if (ans.size() == numCourses) return ans;
-        else return {};
-
+        
+        path_vis[i] = 0;
+        ans.push_back(i);
+        return false;
+    }
+    vector<int> findOrder(int n, vector<vector<int>>& pre) {
+        vector<vector<int>> adj(n);
+        for (auto i : pre){
+            adj[i[1]].push_back(i[0]);
+        }
+        vector<int> ans;
+        vector<int> vis(n, 0), path_vis(n, 0);
+        for(int i = 0; i < n; i++){
+            if (!vis[i]){
+                if(dfs(adj, i, ans, vis, path_vis)) return {};
+            }
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
     }
 };
