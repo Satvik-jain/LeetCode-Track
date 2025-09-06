@@ -1,28 +1,34 @@
 class Solution {
 public:
-    bool dfs(vector<vector<int>> &adj, int i, vector<int>& vis, vector<int> &ans, vector<int>& cycle){
-        vis[i] = 1;
-        for (int j : adj[i]){
-            if (!vis[j]) {if(dfs(adj, j, vis, ans, cycle)){
-                cycle[i] = 1;
-                return true;
-            }}
-            else if(vis[j]==1){
-                cycle[i] = 1;
-                return true;
-            }
-        }
-        vis[i] = 2;
-        if(cycle[i] == 0)ans.push_back(i);
-        return false;
-    }
     vector<int> eventualSafeNodes(vector<vector<int>>& adj) {
         int n = adj.size();
-        vector<int> vis(n, 0), cycle(n, 0);
+        vector<int> indegree(n, 0);
         vector<int> ans;
-        for(int i = 0; i < n; i++){
-            if (!vis[i]){
-                dfs(adj, i, vis, ans, cycle);
+        queue<int> q;
+        vector<vector<int>> temp(n);
+        for (int i = 0; i < n; i++){
+            for(int j = 0; j < adj[i].size(); j++){
+                temp[adj[i][j]].push_back(i);
+            }
+        }
+        for(int i=0;i<adj.size();i++){
+            indegree[i]+=adj[i].size();
+        }
+        adj = temp;
+        // for (int i : indegree) cout << i;
+        for (int i = 0; i < n; i++){
+            if (indegree[i] == 0) {
+                ans.push_back(i);q.push(i);
+            }
+        }
+        while(!q.empty()){
+            int top = q.front(); q.pop();
+            for (int i: adj[top]){
+                indegree[i]--;
+                if (!indegree[i]){
+                    ans.push_back(i);
+                    q.push(i);
+                }
             }
         }
         sort(ans.begin(), ans.end());
