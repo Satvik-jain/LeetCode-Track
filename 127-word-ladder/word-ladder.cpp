@@ -1,36 +1,30 @@
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
-        unordered_map<string, int> mpp;
-        for (auto &w : wordList) {
-            mpp[w] = 1;  
-        }
-        using P = pair<int, string>;
-        queue<P> q;
-        q.push({1, beginWord});
-        mpp.erase(beginWord);
-        if (mpp.find(endWord) == mpp.end()) return 0;
+        set<string> st(wordList.begin(), wordList.end());
+        queue<pair<string, int>> q;
+        q.push({beginWord, 1});
+        if (st.count(beginWord)) st.erase(beginWord);
+        if (!st.count(endWord)) return 0;
+        int res = INT_MAX;
         while(!q.empty()){
-            string curr = q.front().second;
-            int len = q.front().first;
+            string word = q.front().first; 
+            int dis = q.front().second;
             q.pop();
-            if (curr == endWord){
-                return len;
-            }
-            for (int j = 0; j < curr.length(); j++){
-                char now = curr[j];
-                for (int i = 0; i < 26; i++){
-                    char letter = 'a' + i;
-                    if (now == letter) continue;
-                    curr[j] = letter;
-                    if (mpp.find(curr) != mpp.end()){
-                        q.push({len+1, curr});
-                        mpp.erase(curr);
+            for (int i =0; i < beginWord.size(); i++){
+                for(int j = 0; j < 26; j++){
+                    char c = 'a' + j;
+                    string newWord = word; newWord[i] = c;
+                    if (newWord == endWord){
+                        return dis+1;
+                    }
+                    else if (st.count(newWord) != 0){
+                        q.push({newWord, dis+1});
+                        st.erase(newWord); 
                     }
                 }
-                curr[j] = now;
             }
         }
-        return 0;;
+        return (res==INT_MAX)?0:res;
     }
 };
