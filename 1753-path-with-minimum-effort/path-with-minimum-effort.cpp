@@ -21,9 +21,9 @@ public:
                     if (abs(i)+abs(j) == 2) continue;
                     int r = i+a; int c = j+b;
                     if(r<0||c<0||r>=n||c>=m) continue;
-                    if (vis[r][c] > abs(grid[r][c] - grid[a][b])){
+                    if (vis[r][c] > max(d, abs(grid[r][c] - grid[a][b]))){
                         q.push({max(d, abs(grid[r][c] - grid[a][b])), r, c});
-                        vis[r][c] = abs(grid[r][c] - grid[a][b]);
+                        vis[r][c] = max(d, abs(grid[r][c] - grid[a][b]));
                     }
                 }
             }
