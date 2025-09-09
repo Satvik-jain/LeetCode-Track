@@ -5,12 +5,12 @@ public:
         if (grid[0][0] == 1 || grid[n-1][n-1] == 1) return -1;
         using P = tuple<int, int, int>;
         vector<vector<int>> vis(n, vector<int>(n, -1));
-        priority_queue<P, vector<P>, greater<P>> q;
+        queue<P> q;
         q.push({1,0,0});
         while(!q.empty()){
-            int d = get<0>(q.top());
-            int a = get<1>(q.top());
-            int b = get<2>(q.top());
+            int d = get<0>(q.front());
+            int a = get<1>(q.front());
+            int b = get<2>(q.front());
             q.pop();
             if (a == n-1 && b == n-1) return d;
             for (int i : {-1,0,1}){
