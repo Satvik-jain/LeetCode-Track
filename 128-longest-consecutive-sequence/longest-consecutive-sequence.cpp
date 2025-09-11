@@ -12,7 +12,7 @@ public:
             int k = i+1;
             while(s.count(k)){
                 series++;
-                cout << series << " " << k << endl;
+                // cout << series << " " << k << endl;
                 k++;
             }
             ans = max(ans, series);
