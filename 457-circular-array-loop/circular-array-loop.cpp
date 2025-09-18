@@ -6,7 +6,6 @@ public:
         for (int i = 0; i < n; i++){
             if (!vis[i]){
                 int dir = nums[i]/abs(nums[i]);
-                cout << dir << endl;
                 path_vis = zeros;
                 queue<int> q;
                 q.push(i);
