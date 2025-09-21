@@ -23,7 +23,7 @@ public:
         return dp[index][zero][one] = ans;
     }
     int findMaxForm(vector<string>& strs, int mz, int no) {
-        vector<vector<vector<int>>> dp(601, vector<vector<int>>(mz+1, vector<int>(no+1, -1)));
+        vector<vector<vector<int>>> dp(strs.size(), vector<vector<int>>(mz+1, vector<int>(no+1, -1)));
         return helper(strs, mz, no, 0, dp);
     }
 };
