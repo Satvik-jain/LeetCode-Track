@@ -35,7 +35,7 @@ public:
                     i = mid+1;
                 }
             }
-            cout << lo << " " << up << endl;
+            // cout << lo << " " << up << endl;
             res = max(res, min(abs(up-h), abs(h-lo))); 
         }
         return res;
