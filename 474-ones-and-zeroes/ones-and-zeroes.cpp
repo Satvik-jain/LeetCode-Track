@@ -8,22 +8,34 @@ public:
         int zeros = s.length() - ones;
         return {zeros, ones};
     }
-    int helper(vector<string>& strs, int zero, int one, int index, vector<vector<vector<int>>>& dp){
+
+    int helper(vector<pair<int,int>>& counts, int zero, int one, int index, vector<vector<vector<int>>>& dp){
         if (zero == 0 && one == 0) return 0;
-        if (index == strs.size()) return 0;
+        if (index == counts.size()) return 0;
         if (dp[index][zero][one] != -1) return dp[index][zero][one];
-        auto temp = count(strs[index]);
-        int z = temp[0], o = temp[1];
-        int inc_ways, exc_ways;
+
+        int z = counts[index].first;
+        int o = counts[index].second;
+
+        int inc_ways = 0, exc_ways = 0;
         if (zero >= z && one >= o){
-            inc_ways = 1 + helper(strs, zero-z, one-o, index+1, dp);
+            inc_ways = 1 + helper(counts, zero-z, one-o, index+1, dp);
         }
-        exc_ways = helper(strs, zero, one, index+1, dp);
+        exc_ways = helper(counts, zero, one, index+1, dp);
+
         int ans = max(exc_ways, inc_ways);
         return dp[index][zero][one] = ans;
     }
+
     int findMaxForm(vector<string>& strs, int mz, int no) {
+        // Precompute zeros and ones for each string
+        vector<pair<int,int>> counts;
+        for(auto &s : strs){
+            auto temp = count(s);
+            counts.push_back({temp[0], temp[1]});
+        }
+
         vector<vector<vector<int>>> dp(strs.size(), vector<vector<int>>(mz+1, vector<int>(no+1, -1)));
-        return helper(strs, mz, no, 0, dp);
+        return helper(counts, mz, no, 0, dp);
     }
 };
