@@ -28,7 +28,6 @@ public:
     }
 
     int findMaxForm(vector<string>& strs, int mz, int no) {
-        // Precompute zeros and ones for each string
         vector<pair<int,int>> counts;
         for(auto &s : strs){
             auto temp = count(s);
