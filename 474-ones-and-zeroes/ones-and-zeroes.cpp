@@ -1,29 +1,27 @@
 class Solution {
 public:
-    vector<int> count(string s){
-        int ones = 0;
-        for(int i : s){
-            if (i == '1') ones++;
-        }
-        int zeros = s.length() - ones;
-        return {zeros, ones};
+    vector<pair<int, int>> v;
+    int dp[601][101][101];
+    int helper(int m, int n, int ind) {
+        if(ind == v.size() || (m == 0 && n == 0)) return 0;
+        if(dp[ind][m][n] != -1) return dp[ind][m][n];
+        if(v[ind].first > m || v[ind].second > n) return dp[ind][m][n] = helper(m, n, ind + 1);
+
+        int pick = 1 + helper(m - v[ind].first, n - v[ind].second, ind + 1);
+        int not_pick = helper(m, n, ind + 1);
+        return dp[ind][m][n] = max(pick, not_pick);
     }
-    int helper(vector<string>& strs, int zero, int one, int index, vector<vector<vector<int>>>& dp){
-        if (zero == 0 && one == 0) return 0;
-        if (index == strs.size()) return 0;
-        if (dp[index][zero][one] != -1) return dp[index][zero][one];
-        auto temp = count(strs[index]);
-        int z = temp[0], o = temp[1];
-        int inc_ways, exc_ways;
-        if (zero >= z && one >= o){
-            inc_ways = 1 + helper(strs, zero-z, one-o, index+1, dp);
+    int findMaxForm(vector<string>& strs, int m, int n) {
+        v.clear();
+        memset(dp, -1, sizeof(dp));
+        for(string s: strs) {
+            int zero = 0, one = 0;
+            for(char c: s) {
+                if(c == '1') one++;
+                else zero++;
+            }
+            v.push_back({zero, one});
         }
-        exc_ways = helper(strs, zero, one, index+1, dp);
-        int ans = max(exc_ways, inc_ways);
-        return dp[index][zero][one] = ans;
-    }
-    int findMaxForm(vector<string>& strs, int mz, int no) {
-        vector<vector<vector<int>>> dp(strs.size(), vector<vector<int>>(mz+1, vector<int>(no+1, -1)));
-        return helper(strs, mz, no, 0, dp);
+        return helper(m, n, 0);
     }
 };
