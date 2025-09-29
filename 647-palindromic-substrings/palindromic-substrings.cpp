@@ -1,18 +1,21 @@
 class Solution {
 public:
-    int helper(string s, int left, int right, int ans){
-        if (left < 0 || right >= s.length() || s[left] != s[right]) return ans;
-        if (s[left]==s[right]){
-            ans++;
-            left--;
-            right++;
-        }
-        return helper(s, left, right, ans);
-    }
     int countSubstrings(string s) {
-        int ans = 0;
+        int prev = 0, next = 0;
+        int ans = s.length();
         for (int i = 0; i < s.length(); i++){
-            ans+=helper(s, i, i, 0) + helper(s, i, i+1, 0);
+            prev = i-1, next = i+1;
+            while(prev >= 0 && next < s.length() && s[prev] == s[next]){
+                ans++;
+                prev--;
+                next++;
+            }
+            prev = i, next = i+1;
+            while(prev >= 0 && next < s.length() && s[prev] == s[next]){
+                ans++;
+                prev--;
+                next++;
+            }
         }
         return ans;
     }
