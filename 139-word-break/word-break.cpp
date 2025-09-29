@@ -1,28 +1,31 @@
 class Solution {
 public:
-    bool helper(string& s, unordered_set<string> &st, int i, int& n, vector<int>& dp){
-        if (i == n) return true;
-
-        if (dp[i]!=-1) return dp[i];
-
-        bool wordConsidered = false;
-        string substr; 
-
-        for (int j = i; j < n; j++){
-            substr+=s[j];
-            if (st.count(substr)){
-                wordConsidered = helper(s, st, j+1, n, dp);
-                if (wordConsidered) return dp[i] = true;
-            }
+    bool helper(string& s, unordered_set<string> &st, string substr, int i, int& n, unordered_map<string, int> &dp){
+        if (i == n){
+            if (substr == "") return true;
+            else return false;
         }
 
+        string key = to_string(i) + "#" + substr;
         
-        return dp[i] = wordConsidered;
+        if (dp.count(key)) return dp[key];
+
+        substr+=s[i];
+
+        bool wordConsidered = false, wordNotConsidered = false;
+
+        if (st.count(substr)){
+            wordConsidered = helper(s, st, "", i+1, n, dp);
+        }
+
+        wordNotConsidered = helper(s, st, substr, i+1, n, dp);
+        
+        return dp[key] = (wordConsidered || wordNotConsidered);
     }
     bool wordBreak(string s, vector<string>& wordDict) {
         unordered_set<string> st(wordDict.begin(), wordDict.end());
         int n = s.length();
-        vector<int> dp(n+1, -1);
-        return helper(s, st, 0, n, dp);
+        unordered_map<string, int> dp;
+        return helper(s, st, "", 0, n, dp);
     }
 };
