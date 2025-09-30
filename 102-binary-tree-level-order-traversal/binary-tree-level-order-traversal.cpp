@@ -30,7 +30,7 @@ public:
                 if (node->left) q.push(node->left);
                 if (node->right) q.push(node->right);
             }
-            if (layer.size()) ans.push_back(layer);
+            ans.push_back(layer);
         }
         return ans;
     }
