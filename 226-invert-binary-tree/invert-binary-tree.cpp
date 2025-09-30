@@ -13,10 +13,8 @@ class Solution {
 public:
     TreeNode* helper(TreeNode* root){
         if (!root) return nullptr;
-        helper(root->left);
-        helper(root->right);
-        TreeNode* left = root->left;
-        TreeNode* right = root->right;
+        TreeNode* left = helper(root->left);
+        TreeNode* right = helper(root->right);
         root->left = right;
         root->right = left;
         return root;
