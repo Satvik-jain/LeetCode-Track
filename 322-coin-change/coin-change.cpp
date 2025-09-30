@@ -1,32 +1,25 @@
 class Solution {
 public:
-int helper(int sum,  vector<int> &coins, int n, vector<vector<int>>&t){
-        if (n<0) return INT_MAX-1;
-        if (sum == 0){
-            return 0;
-        }
-        if(t[n][sum] != INT_MAX) return t[n][sum];     
-        
-        // vector<int> op1 = v;
-        // vector<int> op2 = v;
-    
-        int a = coins[n];
-        if (a > sum){
-            return t[n][sum] = helper(sum, coins, n-1 ,t);
-        }
-        // op1.push_back(a);
-        return t[n][sum] = min(helper(sum-a, coins, n, t)+1, helper(sum, coins, n-1, t));
-    }
-    int coinChange(vector<int>& coins, int sum) {
-        int n = coins.size();
+    int helper(vector<int>& coins, int amount, int n, int i, vector<vector<int>> &dp){
+        if (amount == 0) return 0;
+        if (amount < 0) return 1e9;
 
-        if (n==1 && coins[0] == 1) return sum;
-        sort(coins.begin(), coins.end());
-        vector<vector<int>> t(n, vector<int>(sum+1, INT_MAX));
-        
-        vector<int> v;
-        // v.push_back()
-        int res = helper(sum, coins, n-1, t);
-        return  (res == INT_MAX-1) ? -1 : res;
+        if (dp[i][amount]!=-1) return dp[i][amount];
+
+        int take = 1e9, not_take = take;
+
+        if (coins[i] <= amount){
+            take = 1 + helper(coins, amount-coins[i], n, i, dp);
+        }
+
+        if (i+1 < n) not_take = helper(coins, amount, n, i+1, dp);
+
+        return dp[i][amount] = min(take, not_take);
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        int n = coins.size();
+        vector<vector<int>> dp(n+1, vector<int>(amount+1, -1));
+        int ans = helper(coins, amount, n, 0, dp);
+        return (ans == 1e9) ? -1 : ans;
     }
 };
