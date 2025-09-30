@@ -11,14 +11,12 @@
  */
 class Solution {
 public:
-    int helper(TreeNode* root, TreeNode* max){
+    int helper(TreeNode* root, int max){
         if (!root) return 0;
-        if (root->val >= max->val) return 1 + helper(root->left, root) + helper(root->right, root);
+        if (root->val >= max) return 1 + helper(root->left, root->val) + helper(root->right, root->val);
         return helper(root->left, max) + helper(root->right, max);
     }
     int goodNodes(TreeNode* root) {
-        return helper(root, root);
+        return helper(root, root->val);
     }
 };
-
-auto init = atexit([]() { ofstream("display_runtime.txt") << "0"; });
