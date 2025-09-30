@@ -20,13 +20,13 @@ public:
         q.push(root);
 
         while(!q.empty()){
-            vector<int> layer;
+            vector<int> layer;  
             int size = q.size();
+            layer.reserve(size);
             while(size--){
                 TreeNode* node = q.front();
-                int val = node->val;
                 q.pop();
-                layer.push_back(val);
+                layer.push_back(node->val);
                 if (node->left) q.push(node->left);
                 if (node->right) q.push(node->right);
             }
