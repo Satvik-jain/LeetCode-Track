@@ -1,36 +1,36 @@
 class Solution {
 public:
-    int dfs(int i, int j, vector<vector<int>>& grid, vector<vector<int>>& vis){
-        int n = grid.size(); int m = grid[0].size();
-        vis[i][j] = 1;
-        
-        int r[] = {-1,0,1,0};
-        int c[] = {0,1,0,-1};
-        int ans = 1;
-        for (int k = 0; k < 4; k++){
-            int nr = i+r[k], nc = j+c[k];
-            if (nr < 0 || nc < 0 || nr >= n || nc >= m) continue;
-            if (vis[nr][nc] == -1 && grid[nr][nc] == 1){
-                ans = ans+dfs(nr, nc, grid, vis);
-            }
-        }
-        return ans;
-    }
     int maxAreaOfIsland(vector<vector<int>>& grid) {
-        int n = grid.size(); int m = grid[0].size();
-        vector<vector<int>> vis(n, vector<int>(m, -1));
-        
-        int maxe = 0;
-
+        queue<pair<int, int>> q;
+        int n = grid.size(), m = grid[0].size();
+        vector<vector<int>> vis(n, vector<int>(m, 0));
+        int dr[] = {0,1,0,-1};
+        int dc[] = {1,0,-1,0};
+        int maxe = 0, ans = 0;
         for (int i = 0; i < n; i++){
             for (int j = 0; j < m; j++){
-                if (vis[i][j] == -1 && grid[i][j] == 1){
-                    maxe = max(maxe, dfs(i, j, grid, vis));
-                    cout << "(" << i << "," << j << "): " << maxe << endl;
+                if (vis[i][j] == 0 && grid[i][j] == 1){
+                    q.push({i,j});
+                    vis[i][j] = 1;
+                    ans = 0;
+                    while(!q.empty()){
+                        ans++;
+                        int x = q.front().first;
+                        int y = q.front().second;
+                        q.pop();
+                        for (int k = 0; k < 4; k++){
+                            int r = x+dr[k], c = y+dc[k];
+                            if(r<0 || c<0 || r>=n || c>=m) continue;
+                            if (vis[r][c] == 0 && grid[r][c] == 1){
+                                q.push({r,c});
+                                vis[r][c] = 1;
+                            }
+                        }
+                    }
                 }
+                maxe = max(maxe, ans);
             }
         }
-
         return maxe;
     }
 };
