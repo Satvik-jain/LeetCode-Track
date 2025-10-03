@@ -1,18 +1,19 @@
 class Solution {
 public:
-    int helper(string &a, string &b, int n, int m, vector<vector<int>>& t){
-        if (m==0 || n==0) return 0;
-        if (t[n][m] != -1) return t[n][m];
-        if (a[n-1] == b[m-1]){
-            return t[n][m] = 1 + helper(a, b, n-1, m-1, t);
+    int LCS(string &s1, string &s2, vector<vector<int>>& dp, int i1, int i2){
+        if (i1==0 || i2==0) return 0;
+        if (dp[i1][i2]!=-1) return dp[i1][i2];
+
+        if (s1[i1-1] == s2[i2-1]){
+            return dp[i1][i2] = 1 + LCS(s1, s2, dp, i1-1, i2-1);
         }
-        return t[n][m] = max(helper(a, b, n, m-1, t), helper(a, b, n-1, m, t));
+
+        return dp[i1][i2] = max(LCS(s1, s2, dp, i1, i2-1), LCS(s1, s2, dp, i1-1, i2));
     }
-    int longestCommonSubsequence(string text1, string text2) {
-        int n = text1.size();
-        int m = text2.size();
+    int longestCommonSubsequence(string s1, string s2) {
+        int n = s1.size(), m = s2.size();
         if (m==0 || n==0) return 0;
-        vector<vector<int>> t(n+1, vector<int>(m+1, -1));
-        return helper(text1, text2, n, m, t);
+        vector<vector<int>> dp(n+1, vector<int>(m+1, -1));
+        return LCS(s1, s2, dp, n, m);
     }
 };
