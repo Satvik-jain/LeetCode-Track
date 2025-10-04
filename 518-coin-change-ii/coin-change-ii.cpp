@@ -6,9 +6,8 @@ public:
         if (index >= coins.size()) return 0;
         if (dp[W][index] != -1) return dp[W][index];
         int tot = 0;
-        for(int i = index; i < coins.size(); i++){
-            if (coins[i] <= W) tot+=helper(W-coins[i], coins, i, dp);
-        }
+        if (coins[index] <= W) tot+=helper(W-coins[index], coins, index, dp);
+        tot+=helper(W, coins, index+1, dp);
         return dp[W][index] = tot;
     }
     int change(int amount, vector<int>& coins) {
