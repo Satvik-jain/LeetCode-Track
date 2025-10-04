@@ -1,22 +1,20 @@
 class Solution {
-  public:
-  using ll = __int128;
-    ll change(int sum, vector<int>& arr) {
-        // code here.
-        if (sum == 0) return 1;
-        int n = arr.size();
-        vector<vector<ll>> dp(n+1, vector<ll>(sum+1, 0));
-        for (int i = 0; i < n + 1; i++){
-            dp[i][0] = 1;
+public:
+    int helper(int W, vector<int> &coins, int index, vector<vector<int>>& dp){
+        if (W == 0) return 1;
+        if (W < 0) return 0;
+        if (index >= coins.size()) return 0;
+        if (dp[W][index] != -1) return dp[W][index];
+        int tot = 0;
+        for(int i = index; i < coins.size(); i++){
+            if (coins[i] <= W) tot+=helper(W-coins[i], coins, i, dp);
         }
-        for (int i = 1; i < n+1; i++){
-            for (int j = 1; j < sum+1; j++){
-                if (j >= arr[i-1]){
-                    dp[i][j] = (dp[i-1][j] + dp[i][j-arr[i-1]])%int(INT_MAX);
-                }
-                else dp[i][j] = dp[i-1][j];
-            }
-        }
-        return dp[n][sum];
+        return dp[W][index] = tot;
+    }
+    int change(int amount, vector<int>& coins) {
+        int W = amount;
+        int n = coins.size();
+        vector<vector<int>> dp(W+1, vector<int>(n+1, -1));
+        return helper(W, coins, 0, dp);
     }
 };
