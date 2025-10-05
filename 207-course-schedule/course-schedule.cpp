@@ -26,7 +26,7 @@ public:
             if(!vis[i]){
                 dfs(adj, topo, vis, i, cycle);
             }
-            if (cycle) break;
+            if (cycle) return false;
         }
         return !cycle;
     }
