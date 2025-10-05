@@ -1,32 +1,36 @@
+
+
 class Solution {
 public:
-    bool dfs(vector<vector<int>> & adj, int i, vector<int>& ans, vector<int>& vis, vector<int>& path_vis){
-        vis[i] = 1; path_vis[i] = 1;
-        
-        for (int j: adj[i]){
-            if (vis[j] == 0){
-                if (dfs(adj, j, ans, vis, path_vis)) return true;
+    void dfs(vector<vector<int>> &adj, vector<int>& topo, vector<int>& vis, int i, int & cycle){
+        vis[i] = 2;
+        for (int j : adj[i]){
+            if(!vis[j]){
+                dfs(adj, topo, vis, j, cycle);
             }
-            else if (path_vis[j] == 1) return true;
+            if (vis[j] == 2){
+                cycle = 1;
+                break;
+            }
         }
-        
-        path_vis[i] = 0;
-        ans.push_back(i);
-        return false;
+        vis[i] = 1;
+        topo.push_back(i);
     }
     vector<int> findOrder(int n, vector<vector<int>>& pre) {
         vector<vector<int>> adj(n);
-        for (auto i : pre){
-            adj[i[1]].push_back(i[0]);
+        for(auto i : pre){
+            adj[i[0]].push_back(i[1]);
         }
-        vector<int> ans;
-        vector<int> vis(n, 0), path_vis(n, 0);
-        for(int i = 0; i < n; i++){
-            if (!vis[i]){
-                if(dfs(adj, i, ans, vis, path_vis)) return {};
+        vector<int> topo;
+        vector<int> vis(n, 0);
+        int cycle = 0;
+        for (int i = 0; i < n; i++){
+            if(!vis[i]){
+                dfs(adj, topo, vis, i, cycle);
             }
+            if (cycle) break;
         }
-        reverse(ans.begin(), ans.end());
-        return ans;
+        if(cycle) return {};
+        else return topo;
     }
 };
