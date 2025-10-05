@@ -1,31 +1,33 @@
 class Solution {
 public:
-    bool dfs(vector<vector<int>> &adj, int i, vector<int>& vis, vector<int>& path_vis){
-        vis[i] = 1; path_vis[i] = 1;
+    void dfs(vector<vector<int>> &adj, vector<int>& topo, vector<int>& vis, int i, int & cycle){
+        vis[i] = 2;
         for (int j : adj[i]){
-            if (vis[j] == 0){
-                if (dfs(adj, j, vis, path_vis)) return true;
+            if(!vis[j]){
+                dfs(adj, topo, vis, j, cycle);
             }
-            if (path_vis[j] == 1) return true;
+            if (vis[j] == 2){
+                cycle = 1;
+                break;
+            }
         }
-        path_vis[i] = 0;
-        return false;
+        vis[i] = 1;
+        topo.push_back(i);
     }
     bool canFinish(int n, vector<vector<int>>& pre) {
         vector<vector<int>> adj(n);
         for(auto i : pre){
-            adj[i[1]].push_back(i[0]);
+            adj[i[0]].push_back(i[1]);
         }
-
+        vector<int> topo;
         vector<int> vis(n, 0);
-        vector<int> path_vis(n, 0);
-
-        for(int i = 0; i < n; i++){
-            if (!vis[i]){
-                if (dfs(adj, i, vis, path_vis)) return false;
+        int cycle = 0;
+        for (int i = 0; i < n; i++){
+            if(!vis[i]){
+                dfs(adj, topo, vis, i, cycle);
             }
-        } 
-        
-        return true;
+            if (cycle) break;
+        }
+        return !cycle;
     }
 };
