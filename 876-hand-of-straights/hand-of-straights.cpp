@@ -1,29 +1,26 @@
 class Solution {
 public:
-    bool isNStraightHand(vector<int>& hand, int groupSize) {
-        int n = hand.size(), k = groupSize;
-        
-        if (n%k!=0) return false;
-
-        sort(hand.begin(), hand.end());
-
+    bool isNStraightHand(vector<int>& hand, int n) {
         map<int, int> mpp;
-
+        if (hand.size()%n != 0) return 0;
         for (int i : hand) mpp[i]++;
-
-        while(!mpp.empty()){
-            auto curr = mpp.begin(); // smallest
-            int val = curr->first; // value
-            for(int i  = 0; i < k; i++){
-                int curr = val+i;
-                auto it = mpp.find(curr);
-                if (it == mpp.end()) return false;
-
-                if (--(it->second) == 0) {
-                    mpp.erase(it);
+        while(mpp.size()){
+            int prev = -1;
+            int cnt = 0;
+            for (auto &i: mpp){
+                cout << prev << " " << cnt << endl;
+                if (cnt == n) break;
+                if (prev!=-1 && i.first != prev+1){
+                    return 0;
                 }
-
+                mpp[i.first]--;
+                prev = i.first;
+                if (mpp[i.first] == 0){
+                    mpp.erase(i.first);
+                }
+                cnt++;
             }
+            if (cnt!=n) return 0;
         }
         return true;
     }
