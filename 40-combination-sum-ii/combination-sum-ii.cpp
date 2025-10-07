@@ -1,29 +1,26 @@
 class Solution {
 public:
-    void helper(vector<int>& candidates, int target, int idx, vector<vector<int>> & ans, vector<int>& v, vector<int>& hash){
-        if (target == 0){
+    void helper(vector<int>& cand, int t, vector<vector<int>>& ans, int idx, vector<int>& v){
+        if (t == 0){
             ans.push_back(v);
             return;
         }
-        while (idx < candidates.size() && idx > 0 && candidates[idx-1] <= target && hash[candidates[idx-1]] == 0 && candidates[idx] == candidates[idx-1]){
-            idx++;
+        if (idx >= cand.size()) return;
+        if (t < 0) return;
+        if (cand[idx] <= t){
+            v.push_back(cand[idx]);
+            helper(cand, t-cand[idx], ans, idx+1, v);
+            v.pop_back();
         }
-        if (idx >= candidates.size() || target < 0) return;
-        if (candidates[idx] > target) return;
-        v.push_back(candidates[idx]);
-        hash[candidates[idx]] = 1; 
-        helper(candidates, target - candidates[idx], idx+1, ans, v, hash);
-        v.pop_back();
-        hash[candidates[idx]] = 0;
-        helper(candidates, target, idx+1, ans, v, hash);
-
+        while(idx+1 < cand.size() && cand[idx] == cand[idx+1]) idx++;
+        helper(cand, t, ans, idx+1, v);
     }
-    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+    vector<vector<int>> combinationSum2(vector<int>& cand, int t) {
+        int sum = 0;
+        sort(cand.begin(), cand.end());
         vector<vector<int>> ans;
         vector<int> v;
-        sort(candidates.begin(), candidates.end());
-        vector<int> hash(target+1, 0);
-        helper(candidates, target, 0, ans, v, hash);
+        helper(cand, t, ans, 0, v);
         return ans;
     }
 };
