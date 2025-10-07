@@ -8,7 +8,7 @@ public:
             int prev = -1;
             int cnt = 0;
             for (auto &i: mpp){
-                cout << prev << " " << cnt << endl;
+                // cout << prev << " " << cnt << endl;
                 if (cnt == n) break;
                 if (prev!=-1 && i.first != prev+1){
                     return 0;
