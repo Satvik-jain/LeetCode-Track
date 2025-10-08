@@ -12,8 +12,7 @@ public:
         vector<int> dis(V+1, INT_MAX);
         dis[k] = 0;
         while(!q.empty()){
-            int d = q.top().first;
-            int node = q.top().second;
+            auto [d, node] = q.top();
             q.pop();
             if (d > dis[node]) continue;
             for (const auto &i : adj[node]){
