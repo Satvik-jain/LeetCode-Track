@@ -1,6 +1,6 @@
 class Solution {
 public:
-typedef pair<int,int> P;
+    typedef pair<int,int> P;
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
         int V = n;
         vector<vector<pair<int, int>>> adj(V+1);
