@@ -1,12 +1,12 @@
 class Solution {
 public:
+typedef pair<int,int> P;
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
         int V = n;
         vector<vector<pair<int, int>>> adj(V+1);
         for (const auto &i : times){
             adj[i[0]].push_back({i[1], i[2]});
         }
-        typedef pair<int,int> P;
         priority_queue<P, vector<P>, greater<P>> q;
         q.push({0, k});
         vector<int> dis(V+1, INT_MAX);
