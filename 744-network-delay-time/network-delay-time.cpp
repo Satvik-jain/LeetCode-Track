@@ -24,8 +24,9 @@ public:
         }
         int maxe = INT_MIN;
         for(int i = 1; i <= V; i++){
+            if (dis[i] == INT_MAX) return -1;
             maxe = max(maxe, dis[i]);
         }
-        return (maxe == INT_MAX) ? -1 : maxe;
+        return maxe;
     }
 };
