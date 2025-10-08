@@ -6,7 +6,7 @@ public:
         for (const auto &i : times){
             adj[i[0]].push_back({i[1], i[2]});
         }
-        using P = pair<int, int>;
+        typedef pair<int,int> P;
         priority_queue<P, vector<P>, greater<P>> q;
         q.push({0, k});
         vector<int> dis(V+1, INT_MAX);
