@@ -1,19 +1,23 @@
 class Solution {
 public:
-    int helper(int W, vector<int> &coins, int index, vector<vector<int>>& dp){
-        if (W == 0) return 1;
-        if (W < 0) return 0;
-        if (index >= coins.size()) return 0;
-        if (dp[W][index] != -1) return dp[W][index];
-        int tot = 0;
-        if (coins[index] <= W) tot+=helper(W-coins[index], coins, index, dp);
-        tot+=helper(W, coins, index+1, dp);
-        return dp[W][index] = tot;
-    }
     int change(int amount, vector<int>& coins) {
-        int W = amount;
+        int sum = amount;
         int n = coins.size();
-        vector<vector<int>> dp(W+1, vector<int>(n+1, -1));
-        return helper(W, coins, 0, dp);
+
+        vector<vector<unsigned int>> dp(n, vector<unsigned int>(sum+1, 0));
+        for (int i = 0; i < n; i++){
+            dp[i][0] = 1;
+        }
+        
+        for (int i = 0; i < n; i++){
+            for (int j = 1; j < sum+1; j++){
+                unsigned int taken = 0, not_taken = 0;
+                if (coins[i] <= j) taken = dp[i][j-coins[i]];
+                if (i) not_taken = dp[i-1][j];
+                dp[i][j] = (taken + not_taken);
+            }
+        }
+        
+        return dp[n-1][sum];
     }
 };
