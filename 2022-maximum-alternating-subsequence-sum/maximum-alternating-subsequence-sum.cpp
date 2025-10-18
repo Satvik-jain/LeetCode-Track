@@ -1,19 +1,20 @@
 class Solution {
 public:
-    long long helper(vector<int>& nums, int i, int sign, vector<vector<long long>>& dp) {
-        if (i == nums.size()) return 0;
-
-        int idx = (sign == 1 ? 0 : 1);
-        if (dp[i][idx] != -1) return dp[i][idx];
-
-        long long take = sign * nums[i] + helper(nums, i + 1, -sign, dp);
-        long long skip = helper(nums, i + 1, sign, dp);
-
-        return dp[i][idx] = max(take, skip);
+    typedef long long ll;
+    int n;
+    ll t[100000][2];
+    ll solve(int idx, vector<int>& nums, bool flag) {
+        if (idx >= n) return 0;
+        if (t[idx][flag] != -1) return t[idx][flag];
+        ll skip = solve(idx+1, nums, flag);
+        ll val = nums[idx];
+        if (!flag) val = -val;
+        ll take = solve(idx+1, nums, !flag) + val;
+        return t[idx][flag] = max(skip, take);
     }
-
     long long maxAlternatingSum(vector<int>& nums) {
-        vector<vector<long long>> dp(nums.size(), vector<long long>(2, -1));
-        return helper(nums, 0, 1, dp);
+        n = nums.size();
+        memset(t, -1, sizeof(t));
+        return solve(0, nums, true);
     }
 };
