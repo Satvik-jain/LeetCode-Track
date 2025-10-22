@@ -2,6 +2,7 @@ class DetectSquares {
 public:
     map<vector<int>, int> mpp;
     DetectSquares() {
+        mpp.clear();
     }
     
     void add(vector<int> point) {
