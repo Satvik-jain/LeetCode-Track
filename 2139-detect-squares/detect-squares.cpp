@@ -2,6 +2,7 @@ class DetectSquares {
 public:
     map<vector<int>, int> mpp;
     vector<int> p1, p2;
+    vector<int> pt;
     DetectSquares() {}
     
     void add(vector<int> point) {
@@ -9,9 +10,9 @@ public:
     }
     
     int count(vector<int> point) {
-        
+
         int cnt = 0;
-        int x = point[0], y = point[1]; vector<int> pt;
+        int x = point[0], y = point[1]; 
         for (auto& i: mpp){
             pt = i.first;
             int x1 = pt[0], y1 = pt[1];
