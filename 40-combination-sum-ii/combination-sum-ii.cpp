@@ -1,26 +1,33 @@
 class Solution {
 public:
-    void helper(vector<int>& cand, int t, vector<vector<int>>& ans, int idx, vector<int>& v){
-        if (t == 0){
+        void helper(vector<int>& coins, int amount, vector<vector<int>> &ans, vector<int> v, int n, int index){
+        if (amount == 0){
             ans.push_back(v);
             return;
         }
-        if (idx >= cand.size()) return;
-        if (t < 0) return;
-        if (cand[idx] <= t){
-            v.push_back(cand[idx]);
-            helper(cand, t-cand[idx], ans, idx+1, v);
+        if (index >= n){
+            return;
+        }
+
+        int taken = 0, not_taken = 0;
+
+        if (coins[index]<=amount){
+            v.push_back(coins[index]);
+            helper(coins, amount-coins[index], ans, v, n, index+1);
             v.pop_back();
         }
-        while(idx+1 < cand.size() && cand[idx] == cand[idx+1]) idx++;
-        helper(cand, t, ans, idx+1, v);
+
+        while(index+1 < n && coins[index] == coins[index+1]) index++;
+        
+        helper(coins, amount, ans, v, n, index+1);
     }
-    vector<vector<int>> combinationSum2(vector<int>& cand, int t) {
-        int sum = 0;
-        sort(cand.begin(), cand.end());
+
+    vector<vector<int>> combinationSum2(vector<int>& coins, int amount) {
+        int n = coins.size();
         vector<vector<int>> ans;
         vector<int> v;
-        helper(cand, t, ans, 0, v);
+        sort(coins.begin(), coins.end());
+        helper(coins, amount, ans, v, n, 0);
         return ans;
     }
 };
