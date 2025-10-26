@@ -1,22 +1,20 @@
 class Solution {
 public:
-    int helper(vector<int>& nums, int target, vector<int>& dp){
-        if (target == 0){
-            return 1;
-        }
-        if (target < 0) return 0;
-        if (dp[target] != -1) return dp[target];
-        
-        int ways=0;
-        for (int i = 0; i < nums.size(); i++){
-            ways+=helper(nums, target-nums[i], dp);
-        }
+    int helper(vector<int>& coins, int amount, vector<vector<int>> &dp, int n, int index){
+        if (amount == 0) return 1;
+        if (dp[index][amount]!=-1) return dp[index][amount];
 
-        return dp[target]=ways;
+        int taken = 0;
+
+        for (int i = 0; i < n; i++){
+            if (coins[i]<=amount) taken += helper(coins, amount-coins[i], dp, n, index);
+        }
+        return dp[index][amount] = taken;
     }
-    int combinationSum4(vector<int>& nums, int target) {
 
-        vector<int> dp(target+1, -1);
-        return helper(nums, target, dp);
+    int combinationSum4(vector<int>& coins, int amount) {
+        int n = coins.size();
+        vector<vector<int>> dp(n, vector<int>(amount+1, -1));
+        return helper(coins, amount, dp, n, 0);
     }
 };
