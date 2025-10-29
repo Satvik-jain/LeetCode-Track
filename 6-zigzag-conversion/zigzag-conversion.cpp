@@ -1,11 +1,12 @@
 class Solution {
 public:
     string convert(string s, int n) {
-        if (n == 1 || n >= s.length()) return s;
-        vector<vector<char>> hash(n);
+        int N = s.length();
+        if (n == 1 || n >= N) return s;
+        vector<string> hash(n);
         int idx = 0;
         bool down = true;
-        for(int i = 0; i < s.length(); i++){
+        for(int i = 0; i <N; i++){
             hash[idx].push_back(s[i]);
             if (idx < n-1 && down) idx++;
             else{
@@ -20,9 +21,7 @@ public:
         }
         string ans;
         for (int i = 0; i < n; i++){
-            for (int j = 0; j < hash[i].size(); j++){
-                ans.push_back(hash[i][j]);
-            }
+            ans+=hash[i];
         }
         return ans;
     }
