@@ -5,19 +5,12 @@ public:
         if (n == 1 || n >= N) return s;
         vector<string> hash(n);
         int idx = 0;
-        bool down = true;
+        int curr = 1;
         for(int i = 0; i <N; i++){
-            hash[idx].push_back(s[i]);
-            if (idx < n-1 && down) idx++;
-            else{
-                down = false;
-                idx--;
-                if (idx==-1){
-                    idx = 1;
-                    down = true;
-                }
-            }
-
+            hash[idx]+=s[i];
+            if (idx == 0) curr = 1;
+            if (idx == n-1) curr = -1;
+            idx+=curr;
         }
         string ans;
         for (int i = 0; i < n; i++){
