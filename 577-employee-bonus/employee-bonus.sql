@@ -2,5 +2,5 @@
 select e.name, b.bonus
 from employee e
 left join bonus b
-on e.empID = b.empID
-where bonus < 1000 or bonus is null;
+on e.empid = b.empid
+where b.bonus is null or b.bonus < 1000
